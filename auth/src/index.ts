@@ -1,19 +1,26 @@
+import cookieSession from 'cookie-session';
+import dotenv from 'dotenv';
 import express from 'express';
 import 'express-async-errors';
 import mongoose from 'mongoose';
+import { NotFoundError } from './errors/not-found-error';
+import { errorHandler } from './middlewares/error-handler';
 import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
-import { signupRouter } from './routes/signup';
 import { signoutRouter } from './routes/signout';
-import { errorHandler } from './middlewares/error-handler';
-import { NotFoundError } from './errors/not-found-error';
-import dotenv from 'dotenv';
+import { signupRouter } from './routes/signup';
 
 dotenv.config();
 
 const app = express();
 
+app.set('trust proxy', true);
+
 app.use(express.json());
+app.use(cookieSession({
+    signed: false,
+    secure: true
+}));
 const PORT = 3000;
 
 app.use(currentUserRouter);
@@ -30,6 +37,11 @@ app.use(errorHandler);
 
 const start = async () => {
     try {
+
+        if (!process.env.JWT_SECRET_KEY) {
+            throw new Error('jwt secret env variable missing');
+        }
+
         await mongoose.connect("mongodb://auth-mongo-srv:27017/auth");
         console.log('connect to MongoDB (auth)');
     } catch (err) {
