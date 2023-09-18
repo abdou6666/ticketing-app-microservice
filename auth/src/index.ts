@@ -1,12 +1,15 @@
 import express from 'express';
 import 'express-async-errors';
-
+import mongoose from 'mongoose';
 import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
 import { signoutRouter } from './routes/signout';
 import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-error';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 
@@ -25,6 +28,17 @@ app.all('*', async () => {
 });
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-    console.log(`Listening on ${PORT}`);
-});
+const start = async () => {
+    try {
+        await mongoose.connect("mongodb://auth-mongo-srv:27017/auth");
+        console.log('connect to MongoDB (auth)');
+    } catch (err) {
+        console.log(err);
+    }
+
+    app.listen(PORT, () => {
+        console.log(`Listening on ${PORT}`);
+    });
+};
+
+start();
