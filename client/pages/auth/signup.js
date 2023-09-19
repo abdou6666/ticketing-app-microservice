@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Router from 'next/router';
-import useRequest from '../../hooks/use-request';
+import useRequest from '../../hooks/useRequest';
 
 export default () => {
     const [email, setEmail] = useState('');
@@ -23,6 +23,7 @@ export default () => {
 
     return (
         <form onSubmit={onSubmit}>
+            {/* // <form > */}
             <h1>Sign Up</h1>
             <div className="form-group">
                 <label>Email Address</label>
