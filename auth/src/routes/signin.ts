@@ -5,7 +5,7 @@ import { BadRequestError } from '../errors/bad-request-error';
 import { NotFoundError } from '../errors/not-found-error';
 import { validateRequest } from '../middlewares/validate-request';
 import { User } from '../models/User';
-import { Password } from '../servercies/password';
+import { Password } from '../services/password';
 
 const router = express.Router();
 
