@@ -2,8 +2,7 @@ import cookieSession from 'cookie-session';
 import dotenv from 'dotenv';
 import express from 'express';
 import 'express-async-errors';
-import { NotFoundError } from './errors/not-found-error';
-import { errorHandler } from './middlewares/error-handler';
+import { errorHandler, NotFoundError } from '@deathknight666/common';
 import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
@@ -36,3 +35,4 @@ app.use(errorHandler);
 
 
 export { app };
+

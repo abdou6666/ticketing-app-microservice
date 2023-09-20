@@ -1,9 +1,7 @@
+import { BadRequestError, NotFoundError, validateRequest } from '@deathknight666/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
-import { BadRequestError } from '../errors/bad-request-error';
-import { NotFoundError } from '../errors/not-found-error';
-import { validateRequest } from '../middlewares/validate-request';
 import { User } from '../models/User';
 import { Password } from '../services/password';
 
