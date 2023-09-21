@@ -1,7 +1,10 @@
-import request = require("supertest");
+import request from "supertest";
 import { app } from "../../app";
 import mongoose from "mongoose";
-it('returns a 400 if the provided id does not exist', async () => {
+import { natsWrapper } from "../../nats-wrapper";
+
+
+it('returns a 404 if the provided id does not exist', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
     await request(app)
         .put(`/api/tickets/${id}`)
@@ -10,7 +13,7 @@ it('returns a 400 if the provided id does not exist', async () => {
             title: 'title',
             price: 20
         })
-        .expect(400);
+        .expect(404);
 });
 it('returns a 401 if the user is not authenticated', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -23,7 +26,7 @@ it('returns a 401 if the user is not authenticated', async () => {
         .expect(401);
 });
 
-it('returns a 400 if the user does not own the ticket', async () => {
+it('returns a 401 if the user does not own the ticket', async () => {
     const response = await request(app)
         .post(`/api/tickets`)
         .set('Cookie', global.signin())
@@ -40,7 +43,7 @@ it('returns a 400 if the user does not own the ticket', async () => {
             title: 'updated title',
             price: 30
         })
-        .expect(400);
+        .expect(401);
 });
 
 it('returns a 400 if the user povides an invalid title or price', async () => {
@@ -95,4 +98,31 @@ it('updates the ticket provided valid input', async () => {
 
     expect(ticktResponse.body.title).toEqual("new title");
     expect(ticktResponse.body.price).toEqual(30);
+});
+
+it('publishs an event', async () => {
+
+    const cookie = global.signin();
+
+
+    const response = await request(app)
+        .post(`/api/tickets`)
+        .set('Cookie', cookie)
+        .send({
+            title: 'title',
+            price: 20
+        })
+        .expect(201);
+
+    const ticktResponse = await request(app)
+        .post('/api/tickets')
+        .set('Cookie', global.signin())
+        .send({
+            title: 'new title',
+            price: 30
+        })
+        .expect(201);
+
+    expect(natsWrapper.client.publish).toBeCalled();
+
 });
