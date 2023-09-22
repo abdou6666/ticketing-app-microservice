@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@deathknight666/common':
-    specifier: ^1.0.9
-    version: 1.0.9
+    specifier: ^1.0.11
+    version: 1.0.11
   '@types/cookie-session':
     specifier: ^2.0.45
     version: 2.0.45
@@ -950,8 +950,8 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: false
 
-  /@deathknight666/common@1.0.9:
-    resolution: {integrity: sha512-op35rApdrnJ+NZ7B8BFayzfnLF0cZn6BKpPBxKVA3faz3umtZUzvQiipyrc21sebx9nzvqcTi6SEvBuRh/VMQw==}
+  /@deathknight666/common@1.0.11:
+    resolution: {integrity: sha512-UTzQLjJXFz1hLTG3P/G/efqRcnytr4xp2EVAwESpp/N9MFW0tPpNkKmpUZzFJSjgFBgCD25T1q42m4R1qNLjCg==}
     dependencies:
       '@types/cookie-session': 2.0.45
       '@types/express': 4.17.17
