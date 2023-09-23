@@ -16,12 +16,15 @@ router.post('/api/tickets', requireAuth, [
         price,
         userId: req.currentUser!.id
     });
+
     await ticket.save();
+
     new TickerCreatedPublisher(natsWrapper.client).publish({
         id: ticket.id,
         title: ticket.title,
         price: ticket.price,
-        userId: ticket.userId
+        userId: ticket.userId,
+        version: ticket.version,
     });
     return res.status(201).send(ticket);
 });

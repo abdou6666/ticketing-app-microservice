@@ -15,7 +15,6 @@ router.put('/api/tickets/:id', requireAuth, [
         throw new NotFoundError();
     }
     if (ticket.userId !== req.currentUser!.id) {
-        console.log(ticket.userId, req?.currentUser?.id);
         throw new NotAuthorizedError();
     }
 
@@ -23,6 +22,7 @@ router.put('/api/tickets/:id', requireAuth, [
         title: req.body.title,
         price: req.body.price,
     });
+
     await ticket.save();
 
     new TicketUpdatedPublisher(natsWrapper.client).publish({
@@ -30,6 +30,8 @@ router.put('/api/tickets/:id', requireAuth, [
         title: ticket.title,
         price: ticket.price,
         userId: ticket.userId,
+        version: ticket.version,
+
     });
     return res.status(200).send(ticket);
 });
