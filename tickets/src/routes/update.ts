@@ -1,4 +1,4 @@
-import { NotAuthorizedError, NotFoundError, requireAuth } from "@deathknight666/common";
+import { BadRequestError, NotAuthorizedError, NotFoundError, requireAuth } from "@deathknight666/common";
 import express, { Request, Response } from "express";
 import { Ticket } from "../models/Ticket";
 import { body } from "express-validator";
@@ -16,6 +16,9 @@ router.put('/api/tickets/:id', requireAuth, [
     }
     if (ticket.userId !== req.currentUser!.id) {
         throw new NotAuthorizedError();
+    }
+    if (ticket.orderId) {
+        throw new BadRequestError('Cannot edit a reserved Ticket');
     }
 
     ticket.set({
