@@ -5,6 +5,7 @@ import { app } from './app';
 const PORT = 3000;
 const start = async () => {
     try {
+        console.log('Starting...');
 
         if (!process.env.JWT_SECRET_KEY) {
             throw new Error('jwt secret env variable missing');
