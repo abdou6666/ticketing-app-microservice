@@ -10,7 +10,7 @@ import { PaymentCreatedListener } from './events/listenners/payment-created-list
 const PORT = 3000;
 const start = async () => {
     try {
-
+        console.log('orders service started..');
         if (!process.env.JWT_SECRET_KEY) {
             throw new Error('jwt secret env variable missing');
         }

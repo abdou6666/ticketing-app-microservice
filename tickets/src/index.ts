@@ -8,7 +8,7 @@ import { OrderCancelledListener } from './events/listeners/order-cancelled-liste
 const PORT = 3000;
 const start = async () => {
     try {
-
+        console.log('Ticket service starting...');
         if (!process.env.JWT_SECRET_KEY) {
             throw new Error('jwt secret env variable missing');
         }
